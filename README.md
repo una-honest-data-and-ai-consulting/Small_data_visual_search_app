@@ -1,5 +1,5 @@
 # Workshop: Human-like visual search application with small data
-A workshop on how to tackle one-shot instance segmentation with Siamese Mask R-CNN
+A workshop on how to build and deploy human-like visual search application with Siamese Mask R-CNN
 
 Audience level: Beginner - Intermediate 
 
