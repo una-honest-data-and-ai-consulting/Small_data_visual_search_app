@@ -114,3 +114,5 @@ cython_debug/
 # ignore folders
 data/
 checkpoints/
+experiments/
+figures/

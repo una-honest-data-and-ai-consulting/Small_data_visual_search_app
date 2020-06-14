@@ -1,11 +1,18 @@
+import sys
 import numpy as np
 
+MASK_RCNN_MODEL_PATH = 'Mask_RCNN/'
+
+if MASK_RCNN_MODEL_PATH not in sys.path:
+    sys.path.append(MASK_RCNN_MODEL_PATH)
+    
+from mrcnn.config import Config as MRCNNConfig
 
 # Base Configuration Class
 # Don't use this class directly. Instead, sub-class it and override
 # the configurations you need to change.
 
-class Config(object):
+class Config(MRCNNConfig):
     """Base configuration class. For custom configurations, create a
     sub-class that inherits from this one and override properties
     that need to be changed.
@@ -78,6 +85,9 @@ class Config(object):
 
     # Number of classification classes (including background)
     NUM_CLASSES = 1  # Override in sub-classes
+    
+    # Number of targets for few-shot learning
+    NUM_TARGETS = 1
 
     # Length of square anchor side in pixels
     RPN_ANCHOR_SCALES = (32, 64, 128, 256, 512)
