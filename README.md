@@ -44,7 +44,7 @@ Siamese Mask R-CNN extends Mask R-CNN (a state-of-the-art object detection and s
 
 3. [Prepare COCO dataset](#Prepare-COCO-dataset)   
 
-4. Get the pretrained weights from the [releases menu](...) and save them to `/checkpoints`.
+4. Get the pretrained weights from the [releases menu](https://github.com/EzheZhezhe/Small_data_visual_search_app/releases) and save them to `/checkpoints`.
  
 
 ### Prepare COCO dataset
@@ -54,37 +54,6 @@ The model requires [MS COCO 2017 Train and Val images, Train/Val annotations](ht
 cd data
 git clone https://github.com/cocodataset/cocoapi.git
 ```
-It is recommended to symlink the dataset root of MS COCO. 
-```
-ln -s $PATH_TO_COCO$/coco coco
-```
-If unsure follow the instructions of the [Matterport Mask R-CNN implementation](https://github.com/matterport/Mask_RCNN#ms-coco-requirements).
-
-* [demo.ipynb](samples/demo.ipynb) Is the easiest way to start. It shows an example of using a model pre-trained on MS COCO to segment objects in your own images.
-It includes code to run object detection and instance segmentation on arbitrary images.
-
-* [train_shapes.ipynb](samples/shapes/train_shapes.ipynb) shows how to train Mask R-CNN on your own dataset. This notebook introduces a toy dataset (Shapes) to demonstrate training on a new dataset.
-
-* ([model.py](mrcnn/model.py), [utils.py](mrcnn/utils.py), [config.py](mrcnn/config.py)): These files contain the main Mask RCNN implementation. 
-
-
-# Training on Your Own Dataset
-
-Start by reading this [blog post about the balloon color splash sample](https://engineering.matterport.com/splash-of-color-instance-segmentation-with-mask-r-cnn-and-tensorflow-7c761e238b46). It covers the process starting from annotating images to training to using the results in a sample application.
-
-In summary, to train the model on your own dataset you'll need to extend two classes:
-
-```Config```
-This class contains the default configuration. Subclass it and modify the attributes you need to change.
-
-```Dataset```
-This class provides a consistent way to work with any dataset. 
-It allows you to use new datasets for training without having to change 
-the code of the model. It also supports loading multiple datasets at the
-same time, which is useful if the objects you want to detect are not 
-all available in one dataset. 
-
-See examples in `samples/shapes/train_shapes.ipynb`, `samples/coco/coco.py`, `samples/balloon/balloon.py`, and `samples/nucleus/nucleus.py`.
 
 ## Training
 
@@ -107,3 +76,8 @@ The final result is the mean of those five runs.
 
 We use the coco 2017 val set for testing and the last 3000 images from the training set for validation.
 
+## Credits
+
+[Siamese Mask R-CNN](https://github.com/bethgelab/siamese-mask-rcnn)
+
+[Mask R-CNN](https://github.com/matterport/Mask_RCNN)
