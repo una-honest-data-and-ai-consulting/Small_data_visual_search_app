@@ -115,4 +115,4 @@ cython_debug/
 data/
 checkpoints/
 experiments/
-figures/
+logs/
