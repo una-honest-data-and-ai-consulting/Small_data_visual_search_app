@@ -46,6 +46,7 @@ Siamese Mask R-CNN extends Mask R-CNN (a state-of-the-art object detection and s
 
 4. Get the pretrained weights from the [releases menu](https://github.com/EzheZhezhe/Small_data_visual_search_app/releases) and save them to `/checkpoints`.
  
+# TODO: finish this part
 
 ### Prepare COCO dataset
 
