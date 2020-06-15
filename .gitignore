@@ -1,9 +1,9 @@
 ### VisualStudioCode ###
 .vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
+.vscode/settings.json
+.vscode/tasks.json
+.vscode/launch.json
+.vscode/extensions.json
 *.code-workspace
 
 # Byte-compiled / optimized / DLL files
@@ -22,7 +22,6 @@ dist/
 downloads/
 eggs/
 .eggs/
-lib/
 lib64/
 parts/
 sdist/
@@ -111,3 +110,9 @@ dmypy.json
 
 # Cython debug symbols
 cython_debug/
+
+# ignore folders
+data/
+checkpoints/
+experiments/
+figures/
