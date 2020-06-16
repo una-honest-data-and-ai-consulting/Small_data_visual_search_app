@@ -8,4 +8,4 @@ app.include_router(model_router.router, prefix='/model')
 
 @app.get('/healthcheck', status_code=200)
 async def healthcheck():
-    return 'Good to go'
+    return 'Siamese Mask R-CNN is all ready to go'

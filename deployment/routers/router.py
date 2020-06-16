@@ -1,81 +1,37 @@
-###TO DO
+COCO_DATA = '../data/coco/'
 
-import tensorflow as tf
-tf.logging.set_verbosity(tf.logging.INFO)
-sess_config = tf.ConfigProto()
-
-import sys
-import os
-
-COCO_DATA = 'data/coco/'
-MASK_RCNN_MODEL_PATH = 'lib/Mask_RCNN/'
-
-if MASK_RCNN_MODEL_PATH not in sys.path:
-    sys.path.append(MASK_RCNN_MODEL_PATH)
-    
-from samples.coco import coco
-from mrcnn import utils
-from mrcnn import model as modellib
-from mrcnn import visualize
-    
-from lib import utils as siamese_utils
-from lib import model as siamese_model
-from lib import config as siamese_config
-   
-import time
-import datetime
 import random
 import numpy as np
-import skimage.io
-import imgaug
-import pickle
 import matplotlib.pyplot as plt
-from collections import OrderedDict
-
 from fastapi import APIRouter, File
-from deployment.model import ###
 
-# Root directory of the project
-ROOT_DIR = os.getcwd()
+from lib.Mask_RCNN.samples.coco import coco
+from lib import utils as siamese_utils
+from ..model import prepare_model
 
-# Directory to save logs and trained model
-MODEL_DIR = os.path.join(ROOT_DIR, "logs")
-
-index = 1
-one_shot_classes = np.array([4*i + index for i in range(20)])
-train_classes = np.array(range(1,81))[np.array([i not in one_shot_classes for i in range(1,81)])]
-
-# Load COCO/val dataset
-coco_val = siamese_utils.IndexedCocoDataset()
-coco_object = coco_val.load_coco(COCO_DATA, subset="val", year="2017", return_coco=True)
-coco_val.prepare()
-coco_val.build_indices()
-coco_val.ACTIVE_CLASSES = one_shot_classes
-
-# Select category
-category = 15
-image_id = np.random.choice(coco_val.category_image_index[category])   
-# Load target
-target = siamese_utils.get_one_target(category, coco_val, config)
-# Load image
-image = coco_val.load_image(image_id)
-
+def prepare_dataset():
+    one_shot_classes = np.array([4*i + 1 for i in range(20)])
+    coco_val = siamese_utils.IndexedCocoDataset()
+    coco_val.load_coco(COCO_DATA, subset="val", year="2017", return_coco=True)
+    coco_val.prepare()
+    coco_val.build_indices()
+    coco_val.ACTIVE_CLASSES = one_shot_classes
+    return coco_val
 
 router = APIRouter()
 
 @router.post('/predict')
-def model_router(image_file: bytes = File(...)):
+def model_router():
     ## load model in inference mode with checkpoints
-    model = Train().define_model()
-    model.load_weights('')
+    model = prepare_model()
+    coco_val = prepare_dataset()
 
-    ## TODO:load target and image - repace with func
-    image = Image.open(io.BytesIO(image_file))
+    category = np.random.choice(80)
+    image_id = np.random.choice(coco_val.category_image_index[category])
+    target = siamese_utils.get_one_target(category, coco_val, model.config)
+    image = coco_val.load_image(image_id)
 
-    # Run detection
     results = model.detect([[target]], [image], verbose=1)
     r = results[0]
-    # Display results
-    siamese_utils.display_results(target, image, r['rois'], r['masks'], r['class_ids'], r['scores'])
-    
-    return {}
+
+    return siamese_utils.display_results(target, image, r['rois'], r['masks'], r['class_ids'], r['scores'])
