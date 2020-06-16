@@ -1,3 +1,5 @@
+###TO DO
+
 import tensorflow as tf
 tf.logging.set_verbosity(tf.logging.INFO)
 sess_config = tf.ConfigProto()
@@ -36,18 +38,6 @@ ROOT_DIR = os.getcwd()
 # Directory to save logs and trained model
 MODEL_DIR = os.path.join(ROOT_DIR, "logs")
 
-
-index = 1
-one_shot_classes = np.array([4*i + index for i in range(20)])
-train_classes = np.array(range(1,81))[np.array([i not in one_shot_classes for i in range(1,81)])]
-
-# Load COCO/val dataset
-coco_val = siamese_utils.IndexedCocoDataset()
-coco_object = coco_val.load_coco(COCO_DATA, subset="val", year="2017", return_coco=True)
-coco_val.prepare()
-coco_val.build_indices()
-coco_val.ACTIVE_CLASSES = one_shot_classes
-
 class EvalConfig(siamese_config.Config):
     # Set batch size to 1 since we'll be running inference on
     # one image at a time. Batch size = GPU_COUNT * IMAGES_PER_GPU
@@ -60,8 +50,7 @@ class EvalConfig(siamese_config.Config):
     NUM_TARGETS = 1
     
 config = EvalConfig()    
-config.display()    
-
+   
 # Provide training schedule of the model
 # When evaluationg intermediate steps the tranining schedule must be provided
 train_schedule = OrderedDict()
@@ -75,17 +64,6 @@ checkpoint = '../checkpoints/small_siamese_mrcnn_0160.h5'
 # Create model object in inference mode.
 model = siamese_model.SiameseMaskRCNN(mode="inference", model_dir=MODEL_DIR, config=config)
 model.load_checkpoint(checkpoint, training_schedule=train_schedule)
-
-
-# Select category
-category = 15
-image_id = np.random.choice(coco_val.category_image_index[category])   
-# Load target
-target = siamese_utils.get_one_target(category, coco_val, config)
-# Load image
-image = coco_val.load_image(image_id)
-print("image_id", image_id)
-
 
 # Run detection
 results = model.detect([[target]], [image], verbose=1)
