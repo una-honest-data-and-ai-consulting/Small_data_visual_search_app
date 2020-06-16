@@ -1,13 +1,25 @@
-COCO_DATA = '../data/coco/'
-
 import random
+import sys
 import numpy as np
 import matplotlib.pyplot as plt
 from fastapi import APIRouter, File
 
-from lib.Mask_RCNN.samples.coco import coco
+COCO_DATA = 'data/coco/'
+MASK_RCNN_MODEL_PATH = 'lib/Mask_RCNN/'
+
+if MASK_RCNN_MODEL_PATH not in sys.path:
+    sys.path.append(MASK_RCNN_MODEL_PATH)
+    
+from samples.coco import coco
+from mrcnn import utils
+from mrcnn import model as modellib
+from mrcnn import visualize
+    
 from lib import utils as siamese_utils
-from ..model import prepare_model
+from lib import model as siamese_model
+from lib import config as siamese_config
+
+from model import prepare_model
 
 def prepare_dataset():
     one_shot_classes = np.array([4*i + 1 for i in range(20)])
@@ -22,7 +34,6 @@ router = APIRouter()
 
 @router.post('/predict')
 def model_router():
-    ## load model in inference mode with checkpoints
     model = prepare_model()
     coco_val = prepare_dataset()
 
@@ -33,5 +44,4 @@ def model_router():
 
     results = model.detect([[target]], [image], verbose=1)
     r = results[0]
-
-    return siamese_utils.display_results(target, image, r['rois'], r['masks'], r['class_ids'], r['scores'])
+    return r
