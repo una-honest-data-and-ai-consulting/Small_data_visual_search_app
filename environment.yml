@@ -25,7 +25,6 @@ dependencies:
   - h5py=2.10.0
   - hdf5=1.10.4
   - importlib-metadata=1.6.0
-  - importlib_metadata=1.6.0
   - intel-openmp=2020.1
   - ipykernel=5.1.4
   - ipython=7.13.0
@@ -68,7 +67,6 @@ dependencies:
   - pip=20.0.2
   - prometheus_client=0.7.1
   - prompt-toolkit=3.0.5
-  - prompt_toolkit=3.0.5
   - protobuf=3.12.3
   - ptyprocess=0.6.0
   - pygments=2.6.1
@@ -122,7 +120,6 @@ dependencies:
     - numpy==1.14.1
     - opencv-python==4.2.0.34
     - pillow==7.1.2
-    - pycocotools==2.0
     - pydantic==1.5.1
     - pyparsing==2.4.7
     - python-dotenv==0.13.0
