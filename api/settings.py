@@ -1,6 +1,6 @@
 from starlette.config import Config
 
-config = Config("../../.env")
+config = Config(".env")
 
 APP_TEST_DATA: str = config("APP_TEST_DATA", cast=str)
 COCO_DATA: str = config("COCO_DATA", cast=str)
