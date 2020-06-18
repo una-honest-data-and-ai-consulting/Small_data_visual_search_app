@@ -3,15 +3,16 @@ import numpy as np
 import tensorflow as tf
 import sys
 
+from config import (COCO_DATA, MASK_RCNN_MODEL_PATH, MODEL_DIR)
 
-MODEL_DIR = 'logs/'
-COCO_DATA = 'data/coco/'
-MASK_RCNN_MODEL_PATH = 'lib/Mask_RCNN/'
+MODEL_DIR = MODEL_DIR
+COCO_DATA = COCO_DATA
+MASK_RCNN_MODEL_PATH = MASK_RCNN_MODEL_PATH
 
-if MASK_RCNN_MODEL_PATH not in sys.path:
-    sys.path.append(MASK_RCNN_MODEL_PATH)
+# if MASK_RCNN_MODEL_PATH not in sys.path:
+#     sys.path.append(MASK_RCNN_MODEL_PATH)
     
-from samples.coco import coco
+# from samples.coco import coco
 from mrcnn import utils
 from mrcnn import model as modellib
 from mrcnn import visualize
@@ -19,7 +20,8 @@ from mrcnn import visualize
 from lib import utils as siamese_utils
 from lib import model as siamese_model
 from lib import config as siamese_config
-   
+
+print(COCO_DATA, MODEL_DIR, MASK_RCNN_MODEL_PATH)   
    
 class SmallEvalConfig(siamese_config.Config):
     # Set batch size to 1 since we'll be running inference on

@@ -9,7 +9,7 @@ Audience level: Beginner - Intermediate
 
 _Task_: Prototype a visual search application with human-like flexibility
 
-_Limitations_: Unaffordable price for large annotated datasets, small data, limited computational resources
+_Limitations_: Unaffordable price for large annotated datasets, small data.
 
 _Solution_: One-shot instance segmentation with Siamese Mask R-CNN
 
@@ -46,36 +46,17 @@ Siamese Mask R-CNN extends Mask R-CNN (a state-of-the-art object detection and s
 
 4. Get the pretrained weights from the [releases menu](https://github.com/EzheZhezhe/Small_data_visual_search_app/releases) and save them to `/checkpoints`.
  
-# TODO: finish this part
-
 ### Prepare COCO dataset
 
+# TODO: finish this part
 The model requires [MS COCO 2017 Train and Val images, Train/Val annotations](http://cocodataset.org/download) and the [CocoAPI](https://github.com/waleedka/coco) to be added to `/data`.
 ```
 cd data
 git clone https://github.com/cocodataset/cocoapi.git
 ```
 
-## Training
-
-To train siamese mask r-cnn on MS COCO simply follow the instructions in the [training.ipynb](training.ipynb) notebook. 
-There are two model configs available, a small one which runs on a single GPU with 12GB memory and a large one which needs 4 GPUs with 12GB memory each.
-The second model config is the same as used in our experiments.
-
-To reproduce our results and train the models reported in the paper run the notebooks provided in [experiments](experiments). 
-Those models need 4 GPUs with 12GB memory each.
-
-Our models are trained on the coco 2017 training set, of which we remove the last 3000 images for validation.
-
-## Evaluation
-
-To evaluate and visualize a models results run the [evaluation.ipynb](evaluation.ipynb) notebook. Make sure to use the same config as used for training the model.
-
-To evaluate the models reported in the paper run the evaluation notebook provided in [experiments](experiments). 
-Each model will be evaluated 5 times to compensate for the stochastic effects introduced by randomly choosing the reference instances. 
-The final result is the mean of those five runs.
-
-We use the coco 2017 val set for testing and the last 3000 images from the training set for validation.
+## Whom I talk to?
+Alyona Galyeva - <alyona.galyeva@gmail.com>
 
 ## Credits
 

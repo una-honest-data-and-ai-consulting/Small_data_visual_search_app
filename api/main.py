@@ -10,24 +10,26 @@ import tensorflow as tf
 
 from fastapi import FastAPI, File, UploadFile
 from pydantic import BaseModel
+from config import(APP_TEST_DATA, COCO_DATA, MASK_RCNN_MODEL_PATH, MODEL_DIR)
+from model import load_model, prepare_image
 
-COCO_DATA = 'data/coco/'
-APP_TEST_DATA = 'data/coco/test2017/'
-MASK_RCNN_MODEL_PATH = 'lib/Mask_RCNN/'
+COCO_DATA = COCO_DATA
+APP_TEST_DATA = APP_TEST_DATA
+MASK_RCNN_MODEL_PATH = MASK_RCNN_MODEL_PATH
 
 if MASK_RCNN_MODEL_PATH not in sys.path:
     sys.path.append(MASK_RCNN_MODEL_PATH)
     
-from samples.coco import coco
-from mrcnn import utils
-from mrcnn import model as modellib
-from mrcnn import visualize
+# from samples.coco import coco
+# from mrcnn import utils
+# from mrcnn import model as modellib
+# from mrcnn import visualize
     
-from lib import utils as siamese_utils
-from lib import model as siamese_model
-from lib import config as siamese_config
+# from lib import utils as siamese_utils
+# from lib import model as siamese_model
+# from lib import config as siamese_config
 
-from model import load_model, prepare_image
+print(COCO_DATA, MODEL_DIR, MASK_RCNN_MODEL_PATH)   
 
 class RequestBody(BaseModel):
     number: int 
