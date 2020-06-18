@@ -4,11 +4,15 @@ import json
 import random
 import sys
 import numpy as np
+import skimage
 import matplotlib.pyplot as plt
-from fastapi import FastAPI
-from fastapi.encoders import jsonable_encoder
-from fastapi.responses import JSONResponse
+from fastapi import FastAPI, File
 from pydantic import BaseModel
+from starlette.requests import Request
+
+from PIL import Image
+import io
+from keras_preprocessing.image import img_to_array
 
 import tensorflow as tf
 sess_config = tf.ConfigProto()
@@ -28,7 +32,8 @@ from lib import utils as siamese_utils
 from lib import model as siamese_model
 from lib import config as siamese_config
 
-from model import prepare_model
+from model import load_model, prepare_image
+from dataset import prepare_dataset
 
 class RequestBody(BaseModel):
     number: int
@@ -40,27 +45,10 @@ class NumpyEncoder(json.JSONEncoder):
         return json.JSONEncoder.default(self, obj)
 
 app = FastAPI()
-
-def prepare_dataset():
-    one_shot_classes = np.array([4*i + 1 for i in range(20)])
-    coco_val = siamese_utils.IndexedCocoDataset()
-    coco_val.load_coco(COCO_DATA, subset="val", year="2017", return_coco=True)
-    coco_val.prepare()
-    coco_val.build_indices()
-    coco_val.ACTIVE_CLASSES = one_shot_classes
-    return coco_val
-
-def load_model():
-    global model
-    model = prepare_model()
-    global graph
-    graph = tf.get_default_graph()
-    return model, graph
+model = None
 
 coco_val = prepare_dataset()
-print("dataset prepared to go")
 model, graph = load_model()
-print("model and graph loaded")
 
 @app.get("/")
 def read_root():
@@ -69,8 +57,8 @@ def read_root():
     )
     return {"message": msg}
 
-@app.post("/model_test")
-def model_test(body: RequestBody):
+@app.post("/predict")
+def predict(body: RequestBody):
 
     category = body.number
     image_id = np.random.choice(coco_val.category_image_index[category])
@@ -78,7 +66,7 @@ def model_test(body: RequestBody):
     image = coco_val.load_image(image_id)
 
     with graph.as_default():
-        prediction = model.detect([[target]], [image], verbose=1)
+        prediction = model.detect([[target]], [image], verbose=0)
     
     results = prediction[0]
     
@@ -86,3 +74,26 @@ def model_test(body: RequestBody):
                                "class_ids": results["class_ids"], "scores": results["scores"]}, cls=NumpyEncoder)
 
     return json_results
+
+@app.post("/predict_image")
+def predict_image(image_file: bytes=File(...)):
+    image = Image.open(io.BytesIO(image_file))
+    
+    image = img_to_array(image)
+
+    return {"msg": image}
+    #category = np.random.choice(80)
+    #image_id = np.random.choice(coco_val.category_image_index[category])
+    #target = siamese_utils.get_one_target(category, coco_val, model.config)
+    #image = coco_val.load_image(image_id)
+ 
+     
+    #with graph.as_default():
+        #prediction = model.detect([[target]], [image], verbose=0)
+    
+    #results = prediction[0]
+    
+    #json_results = json.dumps({"rois": results["rois"], "masks": results["masks"],
+                               #"class_ids": results["class_ids"], "scores": results["scores"]}, cls=NumpyEncoder)
+
+    #return json_results

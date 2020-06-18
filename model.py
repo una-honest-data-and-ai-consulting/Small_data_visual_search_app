@@ -1,10 +1,9 @@
 import random
 import numpy as np
-
-from collections import OrderedDict
-
 import tensorflow as tf
 import sys
+
+from keras.preprocessing.image import img_to_array
 sess_config = tf.ConfigProto()
 
 MODEL_DIR = 'logs/'
@@ -38,14 +37,16 @@ class SmallEvalConfig(siamese_config.Config):
 
 config = SmallEvalConfig()
 
-# Provide training schedule of the model
-# When evaluationg intermediate steps the tranining schedule must be provided
-train_schedule = OrderedDict()
-train_schedule[1] = {"learning_rate": config.LEARNING_RATE, "layers": "heads"}
-train_schedule[120] = {"learning_rate": config.LEARNING_RATE, "layers": "all"}
-train_schedule[160] = {"learning_rate": config.LEARNING_RATE/10, "layers": "all"}
-
-def prepare_model():
+def load_model():
+    global model
     model = siamese_model.SiameseMaskRCNN(mode="inference", model_dir=MODEL_DIR, config=config)
-    model.load_checkpoint('checkpoints/small_siamese_mrcnn_0160.h5', training_schedule=train_schedule)
-    return model
+    model.load_checkpoint('checkpoints/small_siamese_mrcnn_0160.h5')
+    global graph
+    graph = tf.get_default_graph()
+    return model, graph
+
+
+def prepare_image(image):
+    image = utils.resize_image(image, min_dim=config.IMAGE_MIN_DIM, max_dim=config.IMAGE_MAX_DIM, min_scale=config.IMAGE_MIN_SCALE, mode=config.IMAGE_RESIZE_MODE)
+    image = img_to_array(image)
+    return image
