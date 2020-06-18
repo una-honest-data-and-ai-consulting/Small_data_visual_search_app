@@ -61,13 +61,14 @@ git clone https://github.com/waleedka/coco
 cd PythonAPI
 sudo make install
 ```
-* Second, return to the workshop root folder and run python script to upload 2017 Val and Test dataset and Train/Val annotaions. 
+* Second, return to the workshop root folder and run python script to upload 2017 Val and Test dataset and Train/Val annotaions. At least 8GB free space on disc required.
 ```
 python data_utilities/coco_loader.py --dataset=data/coco/  --year=2017 --download=True
 ```
 
 ## Whom I talk to?
-Alyona Galyeva - <alyona.galyeva@gmail.com>
+Any questions, recommendations or need help with troubleshooting
+ping me on [LinkedIn](https://www.linkedin.com/in/alyonagalyeva/)
 
 ## Credits
 
