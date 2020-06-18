@@ -1,5 +1,9 @@
 """
+Small data visual search app 
 Data loading code for MS COCO.
+
+Copyright (c) 2020 Alyona Galyeva
+Licensed under the MIT License (see LICENSE for details)
 
 Adapted and updated from:
 Copyright (c) 2017 Matterport, Inc.
@@ -648,5 +652,6 @@ if __name__ == '__main__':
 
     # Test dataset
     dataset_test = CocoDataset()
-    dataset_test.auto_download_test(args.dataset, "test", dataYear=args.year())
+    dataset_test.auto_download_test(args.dataset, "test", dataYear=args.year)
     print("Test dataset is downloaded")
+    
