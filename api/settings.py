@@ -1,3 +1,11 @@
+"""
+Small data visual search app 
+App API Example
+
+Copyright (c) 2020 Alyona Galyeva
+Licensed under the MIT License (see LICENSE for details)
+------------------------------------------------------------
+"""
 from starlette.config import Config
 
 config = Config(".env")
