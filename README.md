@@ -1,6 +1,8 @@
 # Workshop: Human-like visual search application with small data
 A workshop on how to prototype and deploy a visual search application based on Siamese Mask R-CNN
 
+DISCLAIMER: it's a prototype. The code base is not optimized for production. 
+
 Audience level: Beginner - Intermediate 
 
 ## Workshop description
@@ -50,18 +52,18 @@ mkdir checkpoints -p data/coco
 
 5. Prepare [MSCOCO Dataset]((http://cocodataset.org/download))
 
-Inference part requires the CocoAPI and MS COCO Val2017 and Test2017 images, Train/Val2017 annotations to be added to `/data/coco`.
+Inference part requires the CocoAPI and MS COCO Val2017 and Test2017 images, Train/Val2017 annotations to be added to `/data/coco` folder.
 
-* CocoApi
+* First, install pycocotools
 ```
 cd data/coco
 git clone https://github.com/waleedka/coco
 cd PythonAPI
 sudo make install
 ```
-* upload Val and Test dataset with Val annotaions 
+* Second, return to the workshop root folder and run python script to upload 2017 Val and Test dataset and Train/Val annotaions. 
 ```
-python coco_loader.py --dataset=/path/to/coco/  --year=2017 --download=True
+python data_utilities/coco_loader.py --dataset=data/coco/  --year=2017 --download=True
 ```
 
 ## Whom I talk to?
