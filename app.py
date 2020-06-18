@@ -3,19 +3,13 @@
 import json
 import random
 import sys
+
 import numpy as np
 import skimage
-import matplotlib.pyplot as plt
+import tensorflow as tf
+
 from fastapi import FastAPI, File, UploadFile
 from pydantic import BaseModel
-
-
-
-import io
-
-
-import tensorflow as tf
-sess_config = tf.ConfigProto()
 
 COCO_DATA = 'data/coco/'
 APP_TEST_DATA = 'data/coco/test2017/'
@@ -34,7 +28,6 @@ from lib import model as siamese_model
 from lib import config as siamese_config
 
 from model import load_model, prepare_image
-from dataset import prepare_dataset
 
 class RequestBody(BaseModel):
     number: int 
@@ -44,6 +37,15 @@ class NumpyEncoder(json.JSONEncoder):
         if isinstance(obj, np.ndarray):
             return obj.tolist()
         return json.JSONEncoder.default(self, obj)
+
+def prepare_dataset():
+    one_shot_classes = np.array([4*i + 1 for i in range(20)])
+    coco_val = siamese_utils.IndexedCocoDataset()
+    coco_val.load_coco(COCO_DATA, subset="val", year="2017", return_coco=True)
+    coco_val.prepare()
+    coco_val.build_indices()
+    coco_val.ACTIVE_CLASSES = one_shot_classes
+    return coco_val
 
 app = FastAPI(
     title="VisualSearch",
