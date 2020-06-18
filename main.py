@@ -1,4 +1,3 @@
-##TO DO: to remove spaghetti and replace with propper configs
 import json
 import random
 import sys
@@ -6,6 +5,7 @@ import sys
 import numpy as np
 import skimage
 import tensorflow as tf
+import uvicorn
 
 from fastapi import FastAPI, File, UploadFile
 from pydantic import BaseModel
@@ -52,12 +52,46 @@ class SmallEvalConfig(siamese_config.Config):
     NUM_TARGETS = 1
 
 
-def load_model():
+class LargeEvalConfig(siamese_config.Config):
+    # Set batch size to 1 since we'll be running inference on
+    # one image at a time. Batch size = GPU_COUNT * IMAGES_PER_GPU
+    GPU_COUNT = 1
+    IMAGES_PER_GPU = 1
+    NUM_CLASSES = 1 + 1
+    NAME = 'coco'
+    EXPERIMENT = 'evaluation'
+    CHECKPOINT_DIR = 'checkpoints/'
+    NUM_TARGETS = 1
+    
+    # Large image sizes
+    TARGET_MAX_DIM = 192
+    TARGET_MIN_DIM = 150
+    IMAGE_MIN_DIM = 800
+    IMAGE_MAX_DIM = 1024
+    # Large model size
+    FPN_CLASSIF_FC_LAYERS_SIZE = 1024
+    FPN_FEATUREMAPS = 256
+    # Large number of rois at all stages
+    RPN_ANCHOR_STRIDE = 1
+    RPN_TRAIN_ANCHORS_PER_IMAGE = 256
+    POST_NMS_ROIS_TRAINING = 2000
+    POST_NMS_ROIS_INFERENCE = 1000
+    TRAIN_ROIS_PER_IMAGE = 200
+    DETECTION_MAX_INSTANCES = 100
+    MAX_GT_INSTANCES = 100    
+
+
+def load_model(model_size):
     global model
     global config
-    config = SmallEvalConfig()
+    if model_size == "small":
+        config = SmallEvalConfig()
+        checkpoint = 'checkpoints/small_siamese_mrcnn_0160.h5'
+    elif model_size == "large":
+        config = LargeEvalConfig()
+        checkpoint = 'checkpoints/large_siamese_mrcnn_0320.h5'
     model = siamese_model.SiameseMaskRCNN(mode="inference", model_dir=MODEL_DIR, config=config)
-    model.load_checkpoint('checkpoints/small_siamese_mrcnn_0160.h5')
+    model.load_checkpoint(checkpoint)
     global graph
     graph = tf.get_default_graph()
     return model, graph
@@ -79,7 +113,6 @@ def prepare_image(image):
     return image
 
 
-
 app = FastAPI(
     title="VisualSearch",
     description="Proof of concept for Visual Search app powered by Siamese Mask R-CNN exclusive for Pydata Amsterdam Festival 2020 :)",
@@ -87,7 +120,7 @@ app = FastAPI(
 )
 model = None
 
-model, graph = load_model()
+model, graph = load_model(sys.argv[1])
 coco_val = prepare_dataset()
 
 @app.get("/")
@@ -97,7 +130,8 @@ def read_root():
     )
     return {"message": msg}
 
-@app.post("/predict_by_category")
+
+@app.post("/api/v1/predict_by_category")
 def predict_by_category(body: RequestBody):
 
     category = body.number
@@ -117,7 +151,8 @@ def predict_by_category(body: RequestBody):
 
     return json_results
 
-@app.post("/predict_image")
+
+@app.post("/api/v1/predict_image")
 def predict_image(image_file: UploadFile=File(...)):
     file_path = APP_TEST_DATA+image_file.filename
     image = skimage.io.imread(file_path)
@@ -134,3 +169,6 @@ def predict_image(image_file: UploadFile=File(...)):
                                "class_ids": results["class_ids"], "scores": results["scores"]}, cls=NumpyEncoder)
 
     return json_results
+
+if __name__ == "__main__":
+    uvicorn.run("main:app", host="127.0.0.1", port=8000, log_level="info")
