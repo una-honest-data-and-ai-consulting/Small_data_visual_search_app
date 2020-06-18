@@ -1,3 +1,18 @@
+"""
+Small data visual search app 
+App API Example
+
+Copyright (c) 2020 Alyona Galyeva
+Licensed under the MIT License (see LICENSE for details)
+------------------------------------------------------------
+Usage: run from the command line as such:
+    to use small model:
+        python main.py small
+    to use large model:
+        python main.py large
+"""
+
+
 import json
 import random
 import sys
@@ -171,4 +186,5 @@ def predict_image(image_file: UploadFile=File(...)):
     return json_results
 
 if __name__ == "__main__":
+    
     uvicorn.run("main:app", host="127.0.0.1", port=8000, log_level="info")
