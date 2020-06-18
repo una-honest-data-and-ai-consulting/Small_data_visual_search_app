@@ -3,11 +3,8 @@ import numpy as np
 import tensorflow as tf
 import sys
 
-from keras.preprocessing.image import img_to_array
-sess_config = tf.ConfigProto()
 
 MODEL_DIR = 'logs/'
-
 COCO_DATA = 'data/coco/'
 MASK_RCNN_MODEL_PATH = 'lib/Mask_RCNN/'
 
