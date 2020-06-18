@@ -47,6 +47,7 @@ def load_model():
 
 
 def prepare_image(image):
+    if image.shape[-1] == 4:
+        image = image[..., :3]
     image = utils.resize_image(image, min_dim=config.IMAGE_MIN_DIM, max_dim=config.IMAGE_MAX_DIM, min_scale=config.IMAGE_MIN_SCALE, mode=config.IMAGE_RESIZE_MODE)
-    image = img_to_array(image)
     return image
