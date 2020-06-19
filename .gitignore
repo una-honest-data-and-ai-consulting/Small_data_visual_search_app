@@ -83,7 +83,6 @@ __pypackages__/
 
 
 # Environments
-
 .venv
 env/
 venv/
@@ -115,5 +114,4 @@ cython_debug/
 # ignore folders
 data/
 checkpoints/
-experiments/
 logs/
