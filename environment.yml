@@ -4,6 +4,7 @@ channels:
   - defaults
 dependencies:
   - cython
+  - ipykernel
   - keras=2.1.6
   - numpy=1.14.1
   - python=3.6.10
@@ -11,6 +12,8 @@ dependencies:
   - pip:
     - fastapi
     - imgaug
+    - python_dotenv
+    - python-multipart 
     - scikit_image==0.13.1
     - uvicorn
  
