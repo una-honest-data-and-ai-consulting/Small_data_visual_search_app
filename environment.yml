@@ -16,5 +16,5 @@ dependencies:
     - python-multipart 
     - scikit_image==0.13.1
     - uvicorn
- 
+    - numpy==1.14.1
 

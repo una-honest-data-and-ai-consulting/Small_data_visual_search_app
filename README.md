@@ -39,18 +39,19 @@ Siamese Mask R-CNN extends Mask R-CNN (a state-of-the-art object detection and s
 
 2. Install dependencies
 ```bash
+cd Small_data_visual_search_app
 conda env create -f environment.yml
+conda activate updated-app
 ```
 
 3. Create folders
 ```bash
-cd Small_data_visual_search_app
-mkdir checkpoints -p data/coco 
+mkdir -p checkpoints data/coco 
 ```
 
 4. Download pretrained weights from the [releases menu](https://github.com/EzheZhezhe/Small_data_visual_search_app/releases) and place them in `checkpoints` folder
 
-5. Prepare [MSCOCO Dataset]((http://cocodataset.org/download))
+5. Prepare [MSCOCO Dataset]((http://cocodataset.org/#download))
 
 Inference part requires the CocoAPI and MS COCO Val2017 and Test2017 images, Train/Val2017 annotations to be added to `/data/coco` folder.
 
@@ -58,8 +59,9 @@ Inference part requires the CocoAPI and MS COCO Val2017 and Test2017 images, Tra
 ```
 cd data/coco
 git clone https://github.com/waleedka/coco
-cd PythonAPI
-sudo make install
+cd coco/PythonAPI
+make install
+cd ../../../..
 ```
 * Second, return to the workshop root folder and run python script to upload 2017 Val and Test dataset and Train/Val annotaions. At least 8GB free space on disc required.
 ```
