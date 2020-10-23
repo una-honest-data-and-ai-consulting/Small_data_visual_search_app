@@ -1,5 +1,5 @@
-# Workshop: Human-like visual search application with small data
-A workshop on how to prototype and deploy a visual search application based on Siamese Mask R-CNN
+# Workshop: Human-like visual search application with small data (PoC) for PyData Fest Amsterdam 2020
+A workshop on how to prototype and deploy a visual search DL model based on Siamese Mask R-CNN
 
 DISCLAIMER: it's a prototype. The code base is not optimized for production. 
 
@@ -13,7 +13,7 @@ _Limitations_: Unaffordable price for large annotated datasets, small data.
 
 _Solution_: One-shot instance segmentation with Siamese Mask R-CNN
 
-During the workshop we will learn more about one-shot instance segmentation and cover the building blocks of Siamese Mask R-CNN model. Next, we will try a single deployment. Lastly, we will discuss possible limitations and improvements. At the end of the workshop, participants will have a basic understanding on how to prototype and deploy human-like visual search applications.
+During the workshop we will learn more about one-shot instance segmentation and cover the building blocks of Siamese Mask R-CNN model. Next, we will try a single deployment. Lastly, we will discuss possible limitations and improvements. At the end of the workshop, participants will have a basic understanding on how to prototype and deploy human-like visual search DL models.
 
 ## One-Shot Instance Segmentation
 
@@ -71,6 +71,9 @@ python data_utilities/coco_loader.py --dataset=data/coco/  --year=2017 --downloa
 ## Whom I talk to?
 Any questions, recommendations or need help with troubleshooting
 ping me on [LinkedIn](https://www.linkedin.com/in/alyonagalyeva/)
+
+## Video Record
+[Workshop Video Record](https://youtu.be/2l_WASP1_1A) 
 
 ## Credits
 
