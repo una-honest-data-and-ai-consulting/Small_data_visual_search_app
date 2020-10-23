@@ -1,7 +1,7 @@
-# Workshop: Human-like visual search application with small data (PoC) for PyData Fest Amsterdam 2020
+# Workshop: Human-like visual search application with small data (PoC) for PyDataFest Amsterdam 2020
 A workshop on how to prototype and deploy a visual search DL model based on Siamese Mask R-CNN
 
-DISCLAIMER: it's a prototype. The code base is not optimized for production. 
+DISCLAIMER: it's a prototype, thus the code base is not optimized for production. Anyone with a unix machine (Mac or any Linux Disto) could download the repo and run it.
 
 Audience level: Beginner - Intermediate 
 
@@ -67,6 +67,8 @@ cd ../../../..
 ```
 python data_utilities/coco_loader.py --dataset=data/coco/  --year=2017 --download=True
 ```
+
+6. Follow the instructions in [Workshop slides](https://github.com/EzheZhezhe/Small_data_visual_search_app/edit/master/workshop_slides.ipynb)
 
 ## Whom I talk to?
 Any questions, recommendations or need help with troubleshooting
