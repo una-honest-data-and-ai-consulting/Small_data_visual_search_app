@@ -1,7 +1,7 @@
 # Workshop: Human-like visual search application with small data (PoC) for PyDataFest Amsterdam 2020
 A workshop on how to prototype and deploy a visual search DL model based on Siamese Mask R-CNN
 
-DISCLAIMER: it's a prototype, thus the code base is not optimized for production. Anyone with a unix machine (Mac or any Linux Disto) could download the repo and run it.
+DISCLAIMER: it's a prototype, thus the code base is not optimized for production. 
 
 Audience level: Beginner - Intermediate 
 
@@ -34,6 +34,8 @@ Siamese Mask R-CNN extends Mask R-CNN (a state-of-the-art object detection and s
 - Prepared [MS COCO Dataset](http://cocodataset.org/#download)
 
 ## Installation
+
+Anyone with a unix machine (Mac or any Linux Disto) could download the repo and run it.
 
 1. Clone this repository
 
