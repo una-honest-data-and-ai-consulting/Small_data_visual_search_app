@@ -31,7 +31,6 @@ Siamese Mask R-CNN extends Mask R-CNN (a state-of-the-art object detection and s
 
 ## Requirements
 - [miniconda](https://docs.conda.io/en/latest/miniconda.html) and other packages listed in `environment.yml`.
-- Prepared [MS COCO Dataset](http://cocodataset.org/#download)
 
 ## Installation
 
